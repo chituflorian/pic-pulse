@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 293, 67%, 5%, 1;
+    --foreground: 179, 100%, 58%;
+
+    --card: 290, 64%, 8%;
+    --card-foreground: 0, 0%, 100%, 0.45;
+
+    --primary: 179, 100%, 58%;
+    --secondary: 220, 71%, 80%;
+
+    --border: 179, 100%, 58%;
+  }
+
+  .layout {
+    @apply mx-auto flex w-full max-w-[1200px] flex-col px-4;
+  }
+}
+
+@layer utilities {
+  .absolute-center {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform;
+  }
+  .absolute-center-x {
+    @apply absolute left-1/2 -translate-x-1/2 transform;
+  }
+  .absolute-center-y {
+    @apply absolute top-1/2 -translate-y-1/2 transform;
+  }
+}
