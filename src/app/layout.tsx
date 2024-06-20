@@ -10,12 +10,6 @@ import { TailwindIndicator } from "@/components/tailwind-indicator";
 
 import { siteConfig } from "@/constant/config";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -55,6 +49,12 @@ export const metadata: Metadata = {
   //   },
   // ],
 };
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export default function RootLayout({
   children,
