@@ -1,16 +1,20 @@
-import { Metadata } from 'next';
-import { Silkscreen, Zen_Dots } from 'next/font/google';
-import * as React from 'react';
+import { Metadata } from "next";
+import { Inter, Silkscreen, Zen_Dots } from "next/font/google";
+import * as React from "react";
 
-import '../styles/globals.css';
+import "../styles/globals.css";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
-import { TailwindIndicator } from '@/components/tailwind-indicator';
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 
-import { siteConfig } from '@/constant/config';
+import { siteConfig } from "@/constant/config";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -23,9 +27,9 @@ export const metadata: Metadata = {
   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
   // ! copy to /favicon folder
   icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
+    icon: "/favicon/favicon.ico",
+    shortcut: "/favicon/favicon-16x16.png",
+    apple: "/favicon/apple-touch-icon.png",
   },
   manifest: `/favicon/site.webmanifest`,
   openGraph: {
@@ -34,11 +38,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.title,
     images: [`${siteConfig.url}/images/og.jpg`],
-    type: 'website',
-    locale: 'en_US',
+    type: "website",
+    locale: "en_US",
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
     images: [`${siteConfig.url}/images/og.jpg`],
@@ -52,19 +56,6 @@ export const metadata: Metadata = {
   // ],
 };
 
-const silkscreen = Silkscreen({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-silkscreen',
-});
-
-const zenDots = Zen_Dots({
-  weight: ['400'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-zen-dots',
-});
-
 export default function RootLayout({
   children,
 }: {
@@ -74,15 +65,12 @@ export default function RootLayout({
     <html>
       <body
         className={cn(
-          'bg-background font-zenDots flex min-h-screen flex-col justify-between overflow-x-hidden antialiased',
-          zenDots.variable,
-          silkscreen.variable
+          "bg-background min-h-screen overflow-x-hidden antialiased",
+          inter.className
         )}
       >
-        <Header />
         {children}
         <TailwindIndicator />
-        <Footer />
       </body>
     </html>
   );

@@ -1,46 +1,63 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
-  darkMode: ['class'],
+  darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
-  prefix: '',
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
-      fontSize: {
-        sm: '0.875rem',
-        lm: '1.125rem',
+      colors: {
+        "primary-500": "#877EFF",
+        "primary-600": "#5D5FEF",
+        "secondary-500": "#FFB620",
+        "off-white": "#D0DFFF",
+        red: "#FF5A5A",
+        "dark-1": "#000000",
+        "dark-2": "#09090A",
+        "dark-3": "#101012",
+        "dark-4": "#1F1F22",
+        "light-1": "#FFFFFF",
+        "light-2": "#EFEFEF",
+        "light-3": "#7878A3",
+        "light-4": "#5C5C7B",
+      },
+      screens: {
+        xs: "480px",
+      },
+      width: {
+        "420": "420px",
+        "465": "465px",
       },
       fontFamily: {
-        silkscreen: ['var(--font-silkscreen)'],
-        zenDots: ['var(--font-zen-dots)'],
+        inter: ["var(--font-inter)"],
       },
-      colors: {
-        border: 'hsl(var(--border))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
         },
       },
       animation: {
-        flicker: 'flicker 3s linear infinite',
-        shimmer: 'shimmer 1.3s linear infinite',
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    require('@tailwindcss/container-queries'),
-  ],
+  plugins: [require("tailwindcss-animate")],
 };
