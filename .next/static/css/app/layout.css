@@ -530,7 +530,44 @@ body{
 }
 /* SHADCN COMPONENTS */
 /* Form */
+.shad-form_label{
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+.shad-input{
+  height: 3rem !important;
+  border-style: none !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(31 31 34 / var(--tw-bg-opacity)) !important;
+  --tw-ring-offset-color: #7878A3 !important;
+}
+.shad-input::-moz-placeholder{
+  --tw-text-opacity: 1 !important;
+  color: rgb(92 92 123 / var(--tw-text-opacity)) !important;
+}
+.shad-input::placeholder{
+  --tw-text-opacity: 1 !important;
+  color: rgb(92 92 123 / var(--tw-text-opacity)) !important;
+}
+.shad-input:focus-visible{
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color) !important;
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color) !important;
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000) !important;
+  --tw-ring-offset-width: 1px !important;
+}
 /* Button */
+.shad-button_primary{
+  display: flex !important;
+  gap: 0.5rem !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(135 126 255 / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+.shad-button_primary:hover{
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(135 126 255 / var(--tw-bg-opacity)) !important;
+}
 .pointer-events-auto{
   pointer-events: auto;
 }
@@ -572,6 +609,9 @@ body{
 }
 .mt-8{
   margin-top: 2rem;
+}
+.ml-1{
+  margin-left: 0.25rem;
 }
 .block{
   display: block;
@@ -630,8 +670,23 @@ body{
 .w-full{
   width: 100%;
 }
+.w-1\/2{
+  width: 50%;
+}
+.flex-1{
+  flex: 1 1 0%;
+}
 .shrink-0{
   flex-shrink: 0;
+}
+@keyframes spin{
+
+  to{
+    transform: rotate(360deg);
+  }
+}
+.animate-spin{
+  animation: spin 1s linear infinite;
 }
 .flex-col{
   flex-direction: column;
@@ -650,6 +705,12 @@ body{
 }
 .gap-1{
   gap: 0.25rem;
+}
+.gap-2{
+  gap: 0.5rem;
+}
+.gap-5{
+  gap: 1.25rem;
 }
 .space-x-4 > :not([hidden]) ~ :not([hidden]){
   --tw-space-x-reverse: 0;
@@ -705,6 +766,13 @@ body{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.bg-no-repeat{
+  background-repeat: no-repeat;
+}
+.object-cover{
+  -o-object-fit: cover;
+     object-fit: cover;
+}
 .p-1{
   padding: 0.25rem;
 }
@@ -741,8 +809,15 @@ body{
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.py-10{
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
 .pr-8{
   padding-right: 2rem;
+}
+.pt-5{
+  padding-top: 1.25rem;
 }
 .text-center{
   text-align: center;
@@ -797,6 +872,18 @@ body{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-light-2{
+  --tw-text-opacity: 1;
+  color: rgb(239 239 239 / var(--tw-text-opacity));
+}
+.text-light-3{
+  --tw-text-opacity: 1;
+  color: rgb(120 120 163 / var(--tw-text-opacity));
+}
+.text-primary-500{
+  --tw-text-opacity: 1;
+  color: rgb(135 126 255 / var(--tw-text-opacity));
 }
 .underline-offset-4{
   text-underline-offset: 4px;
@@ -855,7 +942,23 @@ body{
   }
 }
 /* TYPOGRAPHY */
+.h3-bold{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 140%;
+  letter-spacing: -0.05em;
+}
+.small-medium{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+}
 /* UTILITIES */
+.flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* All Users */
 /* Explore */
 /* Home */
@@ -1199,8 +1302,16 @@ body{
     top: auto;
   }
 
+  .sm\:w-420{
+    width: 420px;
+  }
+
   .sm\:flex-col{
     flex-direction: column;
+  }
+
+  .sm\:pt-12{
+    padding-top: 3rem;
   }
 
   .data-\[state\=open\]\:sm\:slide-in-from-bottom-full[data-state=open]{
@@ -1225,6 +1336,19 @@ body{
   .md\:text-6xl{
     font-size: 3.75rem;
     line-height: 1;
+  }
+
+  .md\:h2-bold{
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 140%;
+    letter-spacing: -0.05em;
+  }
+
+  .md\:base-regular{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 140%;
   }
 }
 

@@ -65,7 +65,7 @@ export default function RootLayout({
     <html>
       <body
         className={cn(
-          "bg-background min-h-screen overflow-x-hidden antialiased",
+          "bg-background flex h-screen antialiased",
           inter.className
         )}
       >
