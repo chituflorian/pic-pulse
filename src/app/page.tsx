@@ -1,4 +1,5 @@
-import { appwriteConfig } from "@/lib/appwrite/config";
+"use client";
+
 import * as React from "react";
 
 export default function App() {

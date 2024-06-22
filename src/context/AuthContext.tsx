@@ -1,9 +1,10 @@
 "use client";
 
+import { createContext, useContext, useEffect, useState } from "react";
+
 import { getCurrentUser } from "@/lib/appwrite/api";
 import { IUser } from "@/lib/types";
-import { redirect } from "next/navigation";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const INITIAL_USER = {
   id: "",
@@ -34,38 +35,33 @@ type IContextType = {
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
-export default function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [user, setUser] = useState<IUser>(INITIAL_USER);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkAuthUser = async () => {
+    setIsLoading(true);
     try {
       const currentAccount = await getCurrentUser();
+      if (currentAccount) {
+        setUser({
+          id: currentAccount.$id,
+          name: currentAccount.name,
+          username: currentAccount.username,
+          email: currentAccount.email,
+          imageUrl: currentAccount.imageUrl,
+          bio: currentAccount.bio,
+        });
+        setIsAuthenticated(true);
 
-      if (!currentAccount) {
-        return false;
+        return true;
       }
 
-      setUser({
-        id: currentAccount.$id,
-        name: currentAccount.name,
-        username: currentAccount.username,
-        email: currentAccount.email,
-        imageUrl: currentAccount.imageUrl,
-        bio: currentAccount.bio,
-      });
-
-      setIsAuthenticated(true);
-
-      return true;
+      return false;
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       return false;
     } finally {
       setIsLoading(false);
@@ -79,7 +75,7 @@ export default function AuthProvider({
       cookieFallback === null ||
       cookieFallback === undefined
     ) {
-      redirect("/sign-in");
+      router.push("/sign-in");
     }
 
     checkAuthUser();
@@ -87,8 +83,8 @@ export default function AuthProvider({
 
   const value = {
     user,
-    isLoading,
     setUser,
+    isLoading,
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,

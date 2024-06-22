@@ -23,11 +23,12 @@ import {
 } from "@/lib/react-query/queries";
 import { SignupValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
   const { toast } = useToast();
+  const router = useRouter();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -65,7 +66,7 @@ const SignupForm = () => {
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account" });
 
-        redirect("/sign-in");
+        router.push("/sign-in");
 
         return;
       }
@@ -75,7 +76,7 @@ const SignupForm = () => {
       if (isLoggedIn) {
         form.reset();
 
-        redirect("/");
+        router.push("/");
       } else {
         toast({ title: "Login failed. Please try again." });
 

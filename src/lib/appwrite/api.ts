@@ -56,7 +56,6 @@ export async function saveUserToDB(user: {
     console.log(error);
   }
 }
-
 // ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string }) {
   try {
