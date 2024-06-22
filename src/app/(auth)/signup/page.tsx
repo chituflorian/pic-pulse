@@ -19,6 +19,8 @@ import Loader from "@/components/shared/Loader";
 
 import { SignupValidation } from "@/lib/validation";
 import Link from "next/link";
+import { appwriteConfig, client } from "@/lib/appwrite/config";
+import { createUser } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
   const isCreatingAccount = false;
@@ -36,7 +38,7 @@ const SignupForm = () => {
   });
 
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
-    console.log(user);
+    const newAccount = await createUser(user);
   };
 
   return (
