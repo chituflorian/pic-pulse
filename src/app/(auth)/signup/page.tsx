@@ -19,10 +19,11 @@ import Loader from "@/components/shared/Loader";
 
 import { SignupValidation } from "@/lib/validation";
 import Link from "next/link";
-import { appwriteConfig, client } from "@/lib/appwrite/config";
 import { createUser } from "@/lib/appwrite/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignupForm = () => {
+  const { toast } = useToast();
   const isCreatingAccount = false;
   const isSigningInUser = false;
   const isUserLoading = false;
@@ -38,7 +39,17 @@ const SignupForm = () => {
   });
 
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
-    const newAccount = await createUser(user);
+    try {
+      const newUser = await createUser(user);
+
+      if (!newUser) {
+        toast({ title: "Sign up failed. Please try again." });
+
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
