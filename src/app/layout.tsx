@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 
 import { siteConfig } from "@/constant/config";
+import AuthProvider from "@/context/AuthContext";
+import { QueryProvider } from "@/lib/react-query/QueryProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -69,7 +71,9 @@ export default function RootLayout({
           inter.className
         )}
       >
-        {children}
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
         <TailwindIndicator />
       </body>
     </html>
