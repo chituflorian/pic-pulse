@@ -25,7 +25,7 @@ export default function App({ children }: { children: React.ReactNode }) {
         )}
       >
         <Providers>
-          <main className="flex h-screen">{children}</main>
+          <main className="flex w-full">{children}</main>
         </Providers>
         <TailwindIndicator />
       </body>
