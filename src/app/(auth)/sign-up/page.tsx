@@ -169,7 +169,7 @@ const SignupForm = () => {
             )}
           </Button>
 
-          <p className="text-small-regular text-light-2 mt-2 text-center">
+          <p className="text-small-regular text-dark-2 mt-2 text-center">
             Already have an account?
             <Link
               href="/sign-in"
