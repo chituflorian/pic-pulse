@@ -15,11 +15,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function App({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <body
@@ -28,7 +24,9 @@ export default function RootLayout({
           inter.className
         )}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className="flex h-screen">{children}</main>
+        </Providers>
         <TailwindIndicator />
       </body>
     </html>
