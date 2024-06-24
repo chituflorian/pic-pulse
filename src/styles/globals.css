@@ -260,7 +260,7 @@
   }
 
   .grid-post_user {
-    @apply flex-between from-card absolute bottom-0 w-full gap-2 rounded-b-[24px] bg-gradient-to-t to-transparent p-5;
+    @apply flex-between absolute bottom-0 w-full gap-2 rounded-b-[24px] bg-transparent  p-5;
   }
 
   /* Left sidebar */

@@ -1,5 +1,38 @@
-import React from "react";
+"use client";
+import { useToast } from "@/components/ui/use-toast";
+import Loader from "@/components/shared/Loader";
+import UserCard from "@/components/shared/UserCard";
+import { useGetUsers } from "@/lib/react-query/queries";
 
-export default function AllUsers() {
-  return <div></div>;
-}
+const AllUsers = () => {
+  const { toast } = useToast();
+
+  const { data: creators, isLoading, isError: isErrorCreators } = useGetUsers();
+
+  if (isErrorCreators) {
+    toast({ title: "Something went wrong." });
+
+    return;
+  }
+
+  return (
+    <div className="common-container">
+      <div className="user-container">
+        <h2 className="h3-bold md:h2-bold w-full text-left">All Users</h2>
+        {isLoading && !creators ? (
+          <Loader />
+        ) : (
+          <ul className="user-grid">
+            {creators?.documents.map((creator) => (
+              <li key={creator?.$id} className="w-full min-w-[200px] flex-1  ">
+                <UserCard user={creator} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AllUsers;
