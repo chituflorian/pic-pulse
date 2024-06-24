@@ -18,12 +18,9 @@ type PostStatsProps = {
 
 const PostStats = ({ post, userId }: PostStatsProps) => {
   const location = usePathname();
-  const likesList = post.likes.map((user: Models.Document) => user.$id);
 
-  const [likes, setLikes] = useState<string[]>(likesList);
   const [isSaved, setIsSaved] = useState(false);
 
-  const { mutate: likePost } = useLikePost();
   const { mutate: savePost } = useSavePost();
   const { mutate: deleteSavePost } = useDeleteSavedPost();
 
@@ -36,23 +33,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
   }, [currentUser]);
-
-  const handleLikePost = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
-    let likesArray = [...likes];
-
-    if (likesArray.includes(userId)) {
-      likesArray = likesArray.filter((Id) => Id !== userId);
-    } else {
-      likesArray.push(userId);
-    }
-
-    setLikes(likesArray);
-    likePost({ postId: post.$id, likesArray });
-  };
 
   const handleSavePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -74,7 +54,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     <div
       className={`z-20 flex items-center justify-between ${containerStyles}`}
     >
-      <div className="mr-5 flex gap-2">
+      {/* <div className="mr-5 flex gap-2">
         <img
           src={`${
             checkIsLiked(likes, userId)
@@ -88,7 +68,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           className="cursor-pointer"
         />
         <p className="small-medium lg:base-medium">{likes.length}</p>
-      </div>
+      </div> */}
 
       <div className="flex gap-2">
         <img

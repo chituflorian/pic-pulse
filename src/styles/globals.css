@@ -203,7 +203,7 @@
   }
 
   .post_details-img {
-    @apply bg-dark-1 h-80 rounded-t-[30px] object-cover p-5 lg:h-[480px] xl:w-[48%] xl:rounded-l-[24px] xl:rounded-tr-none;
+    @apply bg-background h-80 rounded-t-[30px] object-cover p-5 lg:h-[480px] xl:w-[48%] xl:rounded-l-[24px] xl:rounded-tr-none;
   }
 
   .post_details-info {
@@ -260,7 +260,7 @@
   }
 
   .grid-post_user {
-    @apply flex-between from-dark-3 absolute bottom-0 w-full gap-2 rounded-b-[24px] bg-gradient-to-t to-transparent p-5;
+    @apply flex-between from-card absolute bottom-0 w-full gap-2 rounded-b-[24px] bg-gradient-to-t to-transparent p-5;
   }
 
   /* Left sidebar */
