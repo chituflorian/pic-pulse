@@ -558,6 +558,16 @@ export async function joinEvent(postId: string, userId: string) {
       return { status: "already_joined" };
     }
 
+    const currentParticipants = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.eventParticipantsCollectionId,
+      [Query.equal("post", postId)]
+    );
+
+    if (currentParticipants.total >= post.maxParticipants) {
+      return { status: "max_participants_reached" };
+    }
+
     const response = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.eventParticipantsCollectionId,
