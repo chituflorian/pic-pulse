@@ -144,6 +144,7 @@ export async function createPost(post: INewPost) {
         location: post.location,
         tags: tags,
         maxParticipants: post.maxParticipants,
+        locationUrl: post.locationUrl,
       }
     );
 
@@ -297,6 +298,7 @@ export async function updatePost(post: IUpdatePost) {
         location: post.location,
         tags: tags,
         maxParticipants: post.maxParticipants,
+        locationUrl: post.locationUrl,
       }
     );
 

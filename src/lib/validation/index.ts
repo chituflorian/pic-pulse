@@ -46,4 +46,5 @@ export const PostValidation = z.object({
     .max(1000, { message: "Maximum 1000 characters." }),
   tags: z.string(),
   maxParticipants: z.string(),
+  locationUrl: z.string(),
 });

@@ -40,7 +40,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
       file: [],
       location: post ? post.location : "",
       tags: post ? post.tags.join(",") : "",
-      maxParticipants: post ? post.maxParticipants : undefined, // Adăugați acest câmp
+      maxParticipants: post ? post.maxParticipants : "",
+      locationUrl: post ? post.locationUrl : "",
     },
   });
 
@@ -127,6 +128,20 @@ const PostForm = ({ post, action }: PostFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-form_label">Add Location</FormLabel>
+              <FormControl>
+                <Input type="text" className="shad-input" {...field} />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="locationUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label">Location URL</FormLabel>
               <FormControl>
                 <Input type="text" className="shad-input" {...field} />
               </FormControl>

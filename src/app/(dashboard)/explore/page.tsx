@@ -67,18 +67,6 @@ const Explore = () => {
     !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
 
-  const filteredPosts = posts.pages.flatMap((page) =>
-    page.documents.filter((post: any) => {
-      if (filter.maxParticipants && post.maxParticipants <= 0) {
-        return false;
-      }
-      if (filter.location && !post.location) {
-        return false;
-      }
-      return true;
-    })
-  );
-
   return (
     <div className="explore-container">
       <div className="explore-inner_container">

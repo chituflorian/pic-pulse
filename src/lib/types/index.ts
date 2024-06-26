@@ -20,6 +20,7 @@ export type INewPost = {
   location?: string;
   tags?: string;
   maxParticipants?: number;
+  locationUrl?: string;
 };
 
 export type IUpdatePost = {
@@ -31,6 +32,7 @@ export type IUpdatePost = {
   location?: string;
   tags?: string;
   maxParticipants?: number;
+  locationUrl?: string;
 };
 
 export type IUser = {

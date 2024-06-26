@@ -89,9 +89,11 @@ const PostDetails = ({ params }: { params: { id: string } }) => {
                       {multiFormatDateString(post?.$createdAt)}
                     </p>
                     •
-                    <p className="subtle-semibold lg:small-regular">
-                      {post?.location}
-                    </p>
+                    <Link href={post?.locationUrl || ""}>
+                      <p className="subtle-semibold lg:small-regular hover:underline">
+                        {post?.location}
+                      </p>
+                    </Link>
                   </div>
                 </div>
               </Link>
