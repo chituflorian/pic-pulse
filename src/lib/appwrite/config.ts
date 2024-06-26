@@ -8,6 +8,8 @@ export const appwriteConfig = {
   userCollectionId: process.env.NEXT_PUBLIC_APPWRITE_USER_COLLECTION_ID || "",
   postCollectionId: process.env.NEXT_PUBLIC_APPWRITE_POST_COLLECTION_ID || "",
   savesCollectionId: process.env.NEXT_PUBLIC_APPWRITE_SAVES_COLLECTION_ID || "",
+  eventParticipantsCollectionId:
+    process.env.NEXT_PUBLIC_APPWRITE_EVENT_PARTICIPANTS_COLLECTION_ID || "",
 };
 
 export const client = new Client();

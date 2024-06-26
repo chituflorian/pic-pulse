@@ -6,6 +6,15 @@ import { useGetPosts, useSearchPosts } from "@/lib/react-query/queries";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import useDebounce from "@/hooks/useDebounce";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { a } from "node_modules/@tanstack/query-core/build/modern/hydration-CwKUqoFl.cjs";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -32,6 +41,10 @@ const Explore = () => {
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
   const [searchValue, setSearchValue] = useState("");
+  const [filter, setFilter] = useState({
+    maxParticipants: false,
+    location: false,
+  });
   const debouncedSearch = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useSearchPosts(debouncedSearch);
@@ -53,6 +66,18 @@ const Explore = () => {
   const shouldShowPosts =
     !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
+
+  const filteredPosts = posts.pages.flatMap((page) =>
+    page.documents.filter((post: any) => {
+      if (filter.maxParticipants && post.maxParticipants <= 0) {
+        return false;
+      }
+      if (filter.location && !post.location) {
+        return false;
+      }
+      return true;
+    })
+  );
 
   return (
     <div className="explore-container">
@@ -81,15 +106,40 @@ const Explore = () => {
       <div className="flex-between mb-7 mt-16 w-full max-w-5xl">
         <h3 className="body-bold md:h3-bold">Popular Today</h3>
 
-        <div className="flex-center bg-dark-3 cursor-pointer gap-3 rounded-xl px-4 py-2">
-          <p className="small-medium md:base-medium text-light-2">All</p>
-          <img
-            src="/assets/icons/filter.svg"
-            width={20}
-            height={20}
-            alt="filter"
-          />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex-center bg-dark-3 cursor-pointer gap-3 rounded-xl px-4 py-2">
+              <p className="small-medium md:base-medium text-light-2">All</p>
+              <img
+                src="/assets/icons/filter.svg"
+                width={20}
+                height={20}
+                alt="filter"
+              />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Filter</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onSelect={() =>
+                setFilter({
+                  ...filter,
+                  maxParticipants: !filter.maxParticipants,
+                })
+              }
+            >
+              Max Participants
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={() =>
+                setFilter({ ...filter, location: !filter.location })
+              }
+            >
+              Location
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="flex w-full max-w-5xl flex-wrap gap-9">

@@ -25,6 +25,8 @@ import {
   searchPosts,
   savePost,
   deleteSavedPost,
+  joinEvent,
+  getEventParticipants,
 } from "@/lib/appwrite/api";
 import { INewUser, INewPost, IUpdatePost, IUpdateUser } from "../types";
 
@@ -242,5 +244,27 @@ export const useUpdateUser = () => {
         queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
       });
     },
+  });
+};
+
+export const useJoinEvent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ postId, userId }: { postId: string; userId: string }) =>
+      joinEvent(postId, userId),
+
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.EVENT_PARTICIPANTS, variables.postId],
+      });
+    },
+  });
+};
+
+export const useGetEventParticipants = (postId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.EVENT_PARTICIPANTS, postId],
+    queryFn: () => getEventParticipants(postId),
   });
 };

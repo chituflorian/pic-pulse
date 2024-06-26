@@ -121,22 +121,17 @@ export async function signOutAccount() {
 // ============================== CREATE POST
 export async function createPost(post: INewPost) {
   try {
-    // Upload file to appwrite storage
     const uploadedFile = await uploadFile(post.file[0]);
-
     if (!uploadedFile) throw Error;
 
-    // Get file url
     const fileUrl = getFilePreview(uploadedFile.$id);
     if (!fileUrl) {
       await deleteFile(uploadedFile.$id);
       throw Error;
     }
 
-    // Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-    // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
@@ -148,6 +143,7 @@ export async function createPost(post: INewPost) {
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
+        maxParticipants: post.maxParticipants,
       }
     );
 
@@ -161,7 +157,6 @@ export async function createPost(post: INewPost) {
     console.log(error);
   }
 }
-
 // ============================== UPLOAD FILE
 export async function uploadFile(file: File) {
   try {
@@ -277,11 +272,9 @@ export async function updatePost(post: IUpdatePost) {
     };
 
     if (hasFileToUpdate) {
-      // Upload new file to appwrite storage
       const uploadedFile = await uploadFile(post.file[0]);
       if (!uploadedFile) throw Error;
 
-      // Get new file url
       const fileUrl = getFilePreview(uploadedFile.$id);
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id);
@@ -291,10 +284,8 @@ export async function updatePost(post: IUpdatePost) {
       image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
-    // Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-    //  Update post
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
@@ -305,21 +296,17 @@ export async function updatePost(post: IUpdatePost) {
         imageId: image.imageId,
         location: post.location,
         tags: tags,
+        maxParticipants: post.maxParticipants,
       }
     );
 
-    // Failed to update
     if (!updatedPost) {
-      // Delete new file that has been recently uploaded
       if (hasFileToUpdate) {
         await deleteFile(image.imageId);
       }
-
-      // If no new file uploaded, just throw error
       throw Error;
     }
 
-    // Safely delete old file after successful update
     if (hasFileToUpdate) {
       await deleteFile(post.imageId);
     }
@@ -541,6 +528,38 @@ export async function updateUser(user: IUpdateUser) {
     }
 
     return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ============================== JOIN EVENT
+export async function joinEvent(postId: string, userId: string) {
+  try {
+    const response = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.eventParticipantsCollectionId,
+      ID.unique(),
+      {
+        user: userId,
+        post: postId,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ============================== GET EVENT PARTICIPANTS
+export async function getEventParticipants(postId: string) {
+  try {
+    const response = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.eventParticipantsCollectionId,
+      [Query.equal("post", postId)]
+    );
+    return response.documents;
   } catch (error) {
     console.log(error);
   }

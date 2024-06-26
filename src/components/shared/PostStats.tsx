@@ -1,10 +1,8 @@
 "use client";
 import { Models } from "appwrite";
 import { useState, useEffect } from "react";
-
-import { checkIsLiked } from "@/lib/utils";
+import Image from "next/image";
 import {
-  useLikePost,
   useSavePost,
   useDeleteSavedPost,
   useGetCurrentUser,
@@ -26,13 +24,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const { data: currentUser } = useGetCurrentUser();
 
-  const savedPostRecord = currentUser?.save.find(
-    (record: Models.Document) => record.post.$id === post.$id
-  );
+  const savedPostRecord =
+    currentUser?.save?.find(
+      (record: Models.Document) => record.post?.$id === post.$id
+    ) || null;
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
-  }, [currentUser]);
+  }, [currentUser, savedPostRecord]);
 
   const handleSavePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -54,24 +53,8 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     <div
       className={`z-20 flex items-center justify-between ${containerStyles}`}
     >
-      {/* <div className="mr-5 flex gap-2">
-        <img
-          src={`${
-            checkIsLiked(likes, userId)
-              ? "/assets/icons/liked.svg"
-              : "/assets/icons/like.svg"
-          }`}
-          alt="like"
-          width={20}
-          height={20}
-          onClick={(e) => handleLikePost(e)}
-          className="cursor-pointer"
-        />
-        <p className="small-medium lg:base-medium">{likes.length}</p>
-      </div> */}
-
       <div className="flex gap-2">
-        <img
+        <Image
           src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
           alt="share"
           width={20}
@@ -80,6 +63,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           onClick={(e) => handleSavePost(e)}
         />
       </div>
+
+      {post.maxParticipants > 0 && (
+        <div className="mr-5 flex gap-2">
+          <p className="small-medium text-muted-foreground lg:base-medium">
+            Max {post.maxParticipants} participants
+          </p>
+        </div>
+      )}
     </div>
   );
 };

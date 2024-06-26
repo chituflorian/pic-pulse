@@ -7,6 +7,7 @@ import Loader from "@/components/shared/Loader";
 import GridPostList from "@/components/shared/GridPostList";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 interface StabBlockProps {
   value: string | number;
@@ -37,11 +38,13 @@ const Profile = ({ params }: { params: { id: string } }) => {
     <div className="profile-container">
       <div className="profile-inner_container">
         <div className="flex flex-1 flex-col gap-7 max-xl:items-center xl:flex-row">
-          <img
+          <Image
             src={
               currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
             }
             alt="profile"
+            width={140}
+            height={140}
             className="h-28 w-28 rounded-full lg:h-36 lg:w-36"
           />
           <div className="flex flex-1 flex-col justify-between md:mt-2">
@@ -73,7 +76,7 @@ const Profile = ({ params }: { params: { id: string } }) => {
                   user.id !== currentUser.$id && "hidden"
                 }`}
               >
-                <img
+                <Image
                   src={"/assets/icons/edit.svg"}
                   alt="edit"
                   width={20}
@@ -101,7 +104,7 @@ const Profile = ({ params }: { params: { id: string } }) => {
               pathname === `/profile/${params.id}` && "!bg-card"
             }`}
           >
-            <img
+            <Image
               src={"/assets/icons/posts.svg"}
               alt="posts"
               width={20}
@@ -110,7 +113,7 @@ const Profile = ({ params }: { params: { id: string } }) => {
             Posts
           </Link>
           <div className="profile-tab rounded-r-lg">
-            <img
+            <Image
               src={"/assets/icons/like.svg"}
               alt="like"
               width={20}

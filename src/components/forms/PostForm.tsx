@@ -40,24 +40,23 @@ const PostForm = ({ post, action }: PostFormProps) => {
       file: [],
       location: post ? post.location : "",
       tags: post ? post.tags.join(",") : "",
+      maxParticipants: post ? post.maxParticipants : undefined, // Adăugați acest câmp
     },
   });
 
-  // Query
   const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
   const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
     useUpdatePost();
 
-  // Handler
   const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
-    // ACTION = UPDATE
     if (post && action === "Update") {
       const updatedPost = await updatePost({
         ...value,
         postId: post.$id,
         imageId: post.imageId,
         imageUrl: post.imageUrl,
+        maxParticipants: Number(value.maxParticipants),
       });
 
       if (!updatedPost) {
@@ -68,10 +67,10 @@ const PostForm = ({ post, action }: PostFormProps) => {
       return router.push(`/posts/${post.$id}`);
     }
 
-    // ACTION = CREATE
     const newPost = await createPost({
       ...value,
       userId: user.id,
+      maxParticipants: Number(value.maxParticipants),
     });
 
     if (!newPost) {
@@ -149,6 +148,27 @@ const PostForm = ({ post, action }: PostFormProps) => {
                   placeholder="Art, Expression, Learn"
                   type="text"
                   className="shad-input"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="maxParticipants"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label">
+                Max Participants
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  className="shad-input"
+                  placeholder="0"
                   {...field}
                 />
               </FormControl>
