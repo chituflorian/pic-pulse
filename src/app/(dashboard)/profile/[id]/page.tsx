@@ -97,10 +97,10 @@ const Profile = ({ params }: { params: { id: string } }) => {
       </div>
 
       {currentUser.$id === user.id && (
-        <div className="flex w-full max-w-5xl">
+        <div className="flex w-full">
           <Link
             href={`/profile/${params.id}`}
-            className={`profile-tab rounded-l-lg ${
+            className={`profile-tab w-full rounded-lg ${
               pathname === `/profile/${params.id}` && "!bg-card"
             }`}
           >
@@ -112,15 +112,6 @@ const Profile = ({ params }: { params: { id: string } }) => {
             />
             Posts
           </Link>
-          <div className="profile-tab rounded-r-lg">
-            <Image
-              src={"/assets/icons/like.svg"}
-              alt="like"
-              width={20}
-              height={20}
-            />
-            Liked Posts
-          </div>
         </div>
       )}
 

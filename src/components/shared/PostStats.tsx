@@ -6,8 +6,10 @@ import {
   useSavePost,
   useDeleteSavedPost,
   useGetCurrentUser,
+  useJoinEvent,
 } from "@/lib/react-query/queries";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 type PostStatsProps = {
   post: Models.Document;
@@ -16,6 +18,7 @@ type PostStatsProps = {
 
 const PostStats = ({ post, userId }: PostStatsProps) => {
   const location = usePathname();
+  const router = useRouter();
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -23,6 +26,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { mutate: deleteSavePost } = useDeleteSavedPost();
 
   const { data: currentUser } = useGetCurrentUser();
+  const { mutate: joinEvent } = useJoinEvent();
 
   const savedPostRecord =
     currentUser?.save?.find(
@@ -47,6 +51,11 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     setIsSaved(true);
   };
 
+  const handleJoinEvent = () => {
+    joinEvent({ postId: post.$id, userId: userId });
+    router.push(`/posts/${post.$id}`);
+  };
+
   const containerStyles = location.startsWith("/profile") ? "w-full" : "";
 
   return (
@@ -65,11 +74,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       </div>
 
       {post.maxParticipants > 0 && (
-        <div className="mr-5 flex gap-2">
-          <p className="small-medium text-muted-foreground lg:base-medium">
-            Max {post.maxParticipants} participants
-          </p>
-        </div>
+        <Button onClick={handleJoinEvent}>Join Event</Button>
       )}
     </div>
   );

@@ -6,6 +6,7 @@ import {
   useGetPostById,
   useGetUserPosts,
   useDeletePost,
+  useGetEventParticipants, // Importați hook-ul pentru a obține participanții la eveniment
 } from "@/lib/react-query/queries";
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
@@ -13,6 +14,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import PostStats from "@/components/shared/PostStats";
 import GridPostList from "@/components/shared/GridPostList";
+import UserCard from "@/components/shared/UserCard"; // Importați UserCard
 
 const PostDetails = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -23,6 +25,8 @@ const PostDetails = ({ params }: { params: { id: string } }) => {
   const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
     post?.creator.$id
   );
+  const { data: participants, isLoading: isParticipantsLoading } =
+    useGetEventParticipants(params.id); // Obțineți participanții la eveniment
   const { mutate: deletePost } = useDeletePost();
 
   const relatedPosts = userPosts?.documents.filter(
@@ -147,6 +151,24 @@ const PostDetails = ({ params }: { params: { id: string } }) => {
 
       <div className="w-full max-w-5xl">
         <hr className="border-border w-full border" />
+
+        <div className="user-container">
+          <h3 className="body-bold md:h3-bold my-10 w-full">Participants</h3>
+          {isParticipantsLoading ? (
+            <Loader />
+          ) : (
+            <ul className="user-grid">
+              {participants?.map((participant) => (
+                <li
+                  key={participant?.$id}
+                  className="w-full min-w-[200px] flex-1  "
+                >
+                  <UserCard user={participant} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <h3 className="body-bold md:h3-bold my-10 w-full">
           More Related Posts

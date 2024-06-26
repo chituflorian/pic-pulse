@@ -224,7 +224,7 @@
   }
 
   .profile-tab {
-    @apply flex-center bg-card w-48 flex-1 gap-3  py-4 transition xl:flex-initial;
+    @apply flex-center bg-card flex-1 gap-3  py-4 transition xl:flex-initial;
   }
 
   /* Saved */

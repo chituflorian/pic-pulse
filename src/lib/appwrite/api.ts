@@ -534,8 +534,30 @@ export async function updateUser(user: IUpdateUser) {
 }
 
 // ============================== JOIN EVENT
+
+// ============================== JOIN EVENT
 export async function joinEvent(postId: string, userId: string) {
   try {
+    const post = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+
+    if (post.creator.$id === userId) {
+      return { status: "cannot_join_own_event" };
+    }
+
+    const existingParticipants = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.eventParticipantsCollectionId,
+      [Query.equal("post", postId), Query.equal("user", userId)]
+    );
+
+    if (existingParticipants.total > 0) {
+      return { status: "already_joined" };
+    }
+
     const response = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.eventParticipantsCollectionId,
@@ -550,16 +572,20 @@ export async function joinEvent(postId: string, userId: string) {
     console.log(error);
   }
 }
-
 // ============================== GET EVENT PARTICIPANTS
 export async function getEventParticipants(postId: string) {
   try {
-    const response = await databases.listDocuments(
+    const participantsResponse = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.eventParticipantsCollectionId,
       [Query.equal("post", postId)]
     );
-    return response.documents;
+
+    const participantUserIds = participantsResponse.documents.map(
+      (participant) => participant.user
+    );
+
+    return participantUserIds;
   } catch (error) {
     console.log(error);
   }

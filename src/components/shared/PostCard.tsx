@@ -66,18 +66,27 @@ const PostCard = ({ post }: PostCardProps) => {
       </div>
 
       <Link href={`/posts/${post.$id}`}>
-        <div className="small-medium lg:base-medium py-5">
-          <p>{post.caption}</p>
-          <ul className="mt-2 flex gap-1">
-            {post.tags.map((tag: string, index: string) => (
-              <li
-                key={`${tag}${index}`}
-                className="text-muted-foreground small-regular"
-              >
-                #{tag}
-              </li>
-            ))}
-          </ul>
+        <div className="flex items-center justify-between">
+          <div className="small-medium lg:base-medium py-5">
+            <p>{post.caption}</p>
+            <ul className="mt-2 flex gap-1">
+              {post.tags.map((tag: string, index: string) => (
+                <li
+                  key={`${tag}${index}`}
+                  className="text-muted-foreground small-regular"
+                >
+                  #{tag}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {post.maxParticipants > 0 && (
+            <div className="mr-5 flex gap-2">
+              <p className="small-medium text-muted-foreground lg:base-medium">
+                Max {post.maxParticipants} participants
+              </p>
+            </div>
+          )}
         </div>
 
         <img
